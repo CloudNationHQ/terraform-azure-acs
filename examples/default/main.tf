@@ -18,7 +18,8 @@ module "rg" {
 }
 
 module "acs" {
-  source = "../../"
+  source  = "cloudnationhq/acs/azure"
+  version = "~> 1.0"
 
   communication = {
     name                = module.naming.communication_service.name_unique

@@ -16,31 +16,6 @@ Automatically associates email domains with the communication service.
 
 Utilization of terratest for robust validation.
 
-## Usage
-
-```hcl
-module "acs" {
-  source = "cloudnationhq/acs/azure"
-
-  communication = {
-    name                = "acs-demo-dev"
-    resource_group_name = "rg-demo-dev"
-    data_location       = "Europe"
-
-    email = {
-      name = "acs-demo-dev-email"
-
-      domains = {
-        managed = {
-          name              = "AzureManagedDomain"
-          domain_management = "AzureManaged"
-        }
-      }
-    }
-  }
-}
-```
-
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 

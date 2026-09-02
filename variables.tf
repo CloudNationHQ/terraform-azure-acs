@@ -3,7 +3,7 @@ variable "communication" {
   type = object({
     name                = string
     resource_group_name = optional(string)
-    data_location       = optional(string)
+    data_location       = optional(string, "Europe")
     tags                = optional(map(string))
     email = optional(map(object({
       name                = optional(string)
@@ -25,19 +25,8 @@ variable "communication" {
   })
 
   validation {
-    condition     = lookup(var.communication, "resource_group_name", null) != null || var.resource_group_name != null
+    condition     = var.communication.resource_group_name != null || var.resource_group_name != null
     error_message = "resource_group_name must be set on var.communication.resource_group_name or on the module-level var.resource_group_name."
-  }
-
-  validation {
-    condition = alltrue([
-      for d in values(merge([
-        for _, email in coalesce(var.communication.email, {}) :
-        coalesce(email.domains, {})
-      ]...)) :
-      contains(["AzureManaged", "CustomerManaged", "CustomerManagedInExchangeOnline"], d.domain_management)
-    ])
-    error_message = "domain_management must be one of: AzureManaged, CustomerManaged, CustomerManagedInExchangeOnline."
   }
 }
 

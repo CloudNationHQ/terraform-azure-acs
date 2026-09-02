@@ -23,13 +23,13 @@ The following requirements are needed by this module:
 
 - <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (~> 1.0)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 5.0)
 
 ## Providers
 
 The following providers are used by this module:
 
-- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 4.0)
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 5.0)
 
 ## Resources
 
@@ -55,7 +55,7 @@ Type:
 object({
     name                = string
     resource_group_name = optional(string)
-    data_location       = optional(string)
+    data_location       = optional(string, "Europe")
     tags                = optional(map(string))
     email = optional(map(object({
       name                = optional(string)
@@ -138,11 +138,7 @@ To update the module's documentation run `make docs`
 
 We welcome contributions from the community! Whether it's reporting a bug, suggesting a new feature, or submitting a pull request, your input is highly valued.
 
-For more information, please see our contribution [guidelines](./CONTRIBUTING.md). <br><br>
-
-<a href="https://github.com/cloudnationhq/terraform-azure-acs/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=cloudnationhq/terraform-azure-acs" />
-</a>
+For more information, please see our contribution [guidelines](./CONTRIBUTING.md).
 
 ## License
 
@@ -152,4 +148,3 @@ MIT Licensed. See [LICENSE](https://github.com/cloudnationhq/terraform-azure-acs
 
 - [Documentation](https://learn.microsoft.com/en-us/azure/communication-services/)
 - [Rest Api](https://learn.microsoft.com/en-us/rest/api/communication/)
-- [Rest Api Specs](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/communication)

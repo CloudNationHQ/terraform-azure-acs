@@ -1,19 +1,35 @@
 # communication service
 resource "azurerm_communication_service" "this" {
-  name                = var.communication.name
-  resource_group_name = coalesce(var.communication.resource_group_name, var.resource_group_name)
-  data_location       = coalesce(var.communication.data_location, "Europe")
-  tags                = coalesce(var.communication.tags, var.tags)
+  resource_group_name = coalesce(
+    var.communication.resource_group_name, var.resource_group_name
+  )
+
+  data_location = var.communication.data_location
+
+  tags = coalesce(
+    var.communication.tags, var.tags
+  )
+
+  name = var.communication.name
 }
 
 # email communication service
 resource "azurerm_email_communication_service" "this" {
   for_each = var.communication.email != null ? var.communication.email : {}
 
-  name                = coalesce(each.value.name, each.key)
-  resource_group_name = coalesce(each.value.resource_group_name, var.communication.resource_group_name, var.resource_group_name)
-  data_location       = coalesce(each.value.data_location, var.communication.data_location, "Europe")
-  tags                = coalesce(each.value.tags, var.tags)
+  name = coalesce(
+    each.value.name, each.key
+  )
+
+  resource_group_name = coalesce(
+    each.value.resource_group_name, var.communication.resource_group_name, var.resource_group_name
+  )
+
+  data_location = var.communication.data_location
+
+  tags = coalesce(
+    each.value.tags, var.tags
+  )
 }
 
 # email domains
@@ -33,11 +49,17 @@ resource "azurerm_email_communication_service_domain" "this" {
     }
   ]...)
 
-  name                             = coalesce(each.value.name, each.value.domain_key)
+  name = coalesce(
+    each.value.name, each.value.domain_key
+  )
+
+  tags = coalesce(
+    each.value.tags, var.tags
+  )
+
   email_service_id                 = azurerm_email_communication_service.this[each.value.email_key].id
   domain_management                = each.value.domain_management
   user_engagement_tracking_enabled = each.value.user_engagement_tracking_enabled
-  tags                             = coalesce(each.value.tags, var.tags)
 }
 
 # domain sender usernames
@@ -57,9 +79,13 @@ resource "azurerm_email_communication_service_domain_sender_username" "this" {
     ]...)
   ]...)
 
-  name                    = coalesce(each.value.name, each.value.username_key)
+  name = coalesce(
+    each.value.name, each.value.username_key
+  )
+
   email_service_domain_id = azurerm_email_communication_service_domain.this["${each.value.email_key}.${each.value.domain_key}"].id
   display_name            = each.value.display_name
+
 }
 
 # email domain associations
